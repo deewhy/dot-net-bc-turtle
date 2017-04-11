@@ -1,6 +1,11 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using dotnetTurtle.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace dotnetTurtle.Droid
 {
@@ -16,7 +21,12 @@ namespace dotnetTurtle.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
+            
             LoadApplication(new App());
-        }
+         }
+
+        
+
+        
     }
 }

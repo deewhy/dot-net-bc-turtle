@@ -8,9 +8,13 @@ namespace dotnetTurtle.ViewModels
 	{
 		public AboutViewModel()
 		{
-			Title = "About";
+			Title = ".NETBC";
 
-			OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
+            var logoImage = new Image { Aspect = Aspect.AspectFit };
+            logoImage.Source = ImageSource.FromFile("dotnetbclogo.png");
+
+            OpenWebCommand = new Command(() =>
+                Device.OpenUri(new Uri("http://dotnetbcfrontend.azurewebsites.net/")));
 		}
 
 		/// <summary>

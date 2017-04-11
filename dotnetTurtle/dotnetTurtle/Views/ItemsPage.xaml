@@ -4,9 +4,7 @@
              x:Class="dotnetTurtle.Views.ItemsPage"
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
-  <ContentPage.ToolbarItems>
-  	<ToolbarItem Text="Add Item" Clicked="AddItem_Clicked" />
-  </ContentPage.ToolbarItems>
+
   <ContentPage.Content>
     <StackLayout>
       <ListView x:Name="ItemsListView"
@@ -26,7 +24,7 @@
                        LineBreakMode="NoWrap"
                        Style="{DynamicResource ListItemTextStyle}"
                        FontSize="16"/>
-                <Label Text="{Binding Description}"
+                <Label Text="{Binding evbrief}"
                        LineBreakMode="NoWrap"
                        Style="{DynamicResource ListItemDetailTextStyle}"
                        FontSize="13"/>

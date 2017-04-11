@@ -20,6 +20,8 @@ namespace dotnetTurtle.Views
 			InitializeComponent();
 
 			BindingContext = this.viewModel = viewModel;
-		}
+
+            
+        }
 	}
 }

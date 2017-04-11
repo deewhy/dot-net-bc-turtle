@@ -100,6 +100,7 @@ class MonoPackageManager_Resources {
 		/* We need to ensure that "dotnetTurtle.Android.dll" comes first in this list. */
 		"dotnetTurtle.Android.dll",
 		"FormsViewGroup.dll",
+		"Newtonsoft.Json.dll",
 		"Xamarin.Android.Support.Animated.Vector.Drawable.dll",
 		"Xamarin.Android.Support.Design.dll",
 		"Xamarin.Android.Support.v4.dll",

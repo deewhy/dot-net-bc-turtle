@@ -6,57 +6,60 @@ using System.Threading.Tasks;
 using dotnetTurtle.Models;
 
 using Xamarin.Forms;
+using Newtonsoft.Json;
+using System.Net;
 
 [assembly: Dependency(typeof(dotnetTurtle.Services.MockDataStore))]
 namespace dotnetTurtle.Services
-{
-	public class MockDataStore : IDataStore<Item>
+{   
+    //Change IDataStore to Events
+	public class MockDataStore : IDataStore<Events>
 	{
 		bool isInitialized;
-		List<Item> items;
+        List<Events> events;
 
-		public async Task<bool> AddItemAsync(Item item)
+		public async Task<bool> AddItemAsync(Events item)
 		{
 			await InitializeAsync();
 
-			items.Add(item);
+			events.Add(item);
 
 			return await Task.FromResult(true);
 		}
 
-		public async Task<bool> UpdateItemAsync(Item item)
+		public async Task<bool> UpdateItemAsync(Events item)
 		{
 			await InitializeAsync();
 
-			var _item = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-			items.Remove(_item);
-			items.Add(item);
+			var _item = events.Where((Events arg) => arg.Id == item.Id).FirstOrDefault();
+			events.Remove(_item);
+			events.Add(item);
 
 			return await Task.FromResult(true);
 		}
 
-		public async Task<bool> DeleteItemAsync(Item item)
+		public async Task<bool> DeleteItemAsync(Events item)
 		{
 			await InitializeAsync();
 
-			var _item = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-			items.Remove(_item);
+			var _item = events.Where((Events arg) => arg.Id == item.Id).FirstOrDefault();
+			events.Remove(_item);
 
 			return await Task.FromResult(true);
 		}
 
-		public async Task<Item> GetItemAsync(string id)
+		public async Task<Events> GetItemAsync(string id)
 		{
 			await InitializeAsync();
 
-			return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+			return await Task.FromResult(events.FirstOrDefault(s => s.Id == id));
 		}
 
-		public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+		public async Task<IEnumerable<Events>> GetItemsAsync(bool forceRefresh = false)
 		{
 			await InitializeAsync();
 
-			return await Task.FromResult(items);
+			return await Task.FromResult(events);
 		}
 
 		public Task<bool> PullLatestAsync()
@@ -75,23 +78,37 @@ namespace dotnetTurtle.Services
 			if (isInitialized)
 				return;
 
-			items = new List<Item>();
-			var _items = new List<Item>
-			{
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Buy some cat food", Description="The cats are hungry"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Learn F#", Description="Seems like a functional idea"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Learn to play guitar", Description="Noted"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Buy some new candles", Description="Pine and cranberry for that winter feel"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Complete holiday shopping", Description="Keep it a secret!"},
-				new Item { Id = Guid.NewGuid().ToString(), Text = "Finish a todo list", Description="Done"},
-			};
+			events = new List<Events>();
 
-			foreach (Item item in _items)
+            var json = DownloadJsonEvents();
+
+            var _items = ConvertJSONToEvent(json);
+			
+			foreach (Events item in _items)
 			{
-				items.Add(item);
+                item.Id = Guid.NewGuid().ToString();
+				events.Add(item);
 			}
 
 			isInitialized = true;
 		}
-	}
+
+
+        //MYSTUFF*************************************************************************************
+        public string DownloadJsonEvents()
+        {
+            var json = new WebClient()
+                .DownloadString("http://dotnetbcbackend.azurewebsites.net/api/APIPublicEvents");
+
+
+            return json;
+        }
+
+        public List<Events> ConvertJSONToEvent(string json)
+        {
+
+            List<Events> evList = JsonConvert.DeserializeObject<List<Events>>(json);
+            return evList;
+        }
+    }
 }

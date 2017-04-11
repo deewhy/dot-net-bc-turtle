@@ -11,7 +11,7 @@ namespace dotnetTurtle.ViewModels
 		/// <summary>
 		/// Get the azure service instance
 		/// </summary>
-		public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+		public IDataStore<Events> DataStore => DependencyService.Get<IDataStore<Events>>();
 
 		bool isBusy = false;
 		public bool IsBusy
